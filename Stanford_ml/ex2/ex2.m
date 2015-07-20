@@ -120,7 +120,11 @@ pause;
 
 %  Predict probability for a student with score 45 on exam 1 
 %  and score 85 on exam 2 
-
+%printf("========================================\n")
+%theta
+%printf("========================================\n")
+%[1 45 85] * theta
+%printf("========================================\n")
 prob = sigmoid([1 45 85] * theta);
 fprintf(['For a student with scores 45 and 85, we predict an admission ' ...
          'probability of %f\n\n'], prob);
