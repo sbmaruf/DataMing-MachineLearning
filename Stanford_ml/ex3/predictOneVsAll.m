@@ -31,11 +31,12 @@ X = [ones(m, 1) X];
 %       
 
 ret = sigmoid(X *  all_theta');
-prob = max(ret, [], 2);
-for i = 1:size(prob, 1)
-    idx = find(ret(i, :) == prob(i, :));
-    p(i, :) = idx;
-end
+%prob = max(ret, [], 2);
+%for i = 1:size(prob, 1)
+%    idx = find(ret(i, :) == prob(i, :));
+%    p(i, :) = idx;
+%end
+[x, p] = max(ret, [], 2);
 
 % =========================================================================
 
