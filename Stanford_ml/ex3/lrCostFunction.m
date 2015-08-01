@@ -40,7 +40,6 @@ value = lambda * (sum(theta.^2) -theta(1)) / 2/ m;
 %value = lambda * (sum(theta.^2) -theta(1)) / (2* m));
 J = (-y' * log(sigmoid(X*theta)) - (1-y)' * (log(1-sigmoid(X*theta)))) / m + value;
 
-<<<<<<< HEAD
 
 h = sigmoid(X * theta);
 thetaFiltered = [0; theta(2:end)];
@@ -57,11 +56,9 @@ grad = (1/m) * (X' * (h - y)) + ((lambda / m) * thetaFiltered);
 %temp_1 = ((sigmoid(X*theta) - y)' * X(:,1)) ./ m;
 %grad = ((sigmoid(X*theta) - y)' * X) ./ m + (lambda * theta) ./ m;
 %grad(1) = temp_1;
-=======
-temp_1 = ((sigmoid(X*theta) - y)' * X(:,1)) ./ m;
-grad = ((sigmoid(X*theta) - y)' * X) ./ m + (lambda * theta) ./ m;
-grad(1) = temp_1;
->>>>>>> 4565739e4f27c1a58b9dab9c7473ab8728fb4ecb
+%temp_1 = ((sigmoid(X*theta) - y)' * X(:,1)) ./ m;
+%grad = ((sigmoid(X*theta) - y)' * X) ./ m + (lambda * theta) ./ m;
+%grad(1) = temp_1;
 
 % =============================================================
 
