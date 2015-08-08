@@ -1,0 +1,15 @@
+##Trainning a neural network
+---
+
+* 1.Randomly initialize weights
+
+* 2.implement forward propagation to get h_theta(x_i) for any x_i
+
+* 3.Implement code to compute cost function J(theta)
+
+* 4.Implement backprogation to compute partial derivatives J(theta) theta_l_jk
+
+* 5.Use gradient checking to compare J(theta) theta_l_jk coputed using back propagetion vs. using numerical estimate of gradient of J(theta)
+    Then disable gradient checking code.
+    
+* 6Use gradient descent or advanced optimazation method with back propagation to try to minimize J(theta) as function of parameters theta
