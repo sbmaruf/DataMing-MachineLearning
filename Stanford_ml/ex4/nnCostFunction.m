@@ -1,4 +1,4 @@
-function [J grad] = nnCostFunction(nn_params, ...
+function [J, grad] = nnCostFunction(nn_params, ...
                                    input_layer_size, ...
                                    hidden_layer_size, ...
                                    num_labels, ...
@@ -62,23 +62,29 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+% Calculate the h(theta) = a3
+a1 = [ones(m, 1), X]; % results in [5000, 401]
+z2 = Theta1 * a1'; % results in [25, 5000]% Hidden Layer
+a2 = sigmoid(z2);  % results in [25, 5000]
+a2 = [ones(1, size(a2, 2)); a2]; % results in [26, 5000]% Output layer
+z3 = Theta2 * a2; % results in [10, 5000]
+a3 = sigmoid(z3); % results in [10, 5000]
 
+y_matrix = zeros(num_labels, m); % y_matrix [10, 5000]
 
+for i = 1:m
+    y_matrix(y(i), i) = 1;
+end
 
+% y is [5000, 1]
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+for i = 1:m
+    J += sum(-y_matrix'(i, :) .* log(a3'(i,:)) - (1-y_matrix')(i,:) .* log(1-a3'(i,:))); 
+end
+printf("=======\n")
+-y_matrix'(1, :) .* log(a3'(1,:)) - (1-y_matrix')(1,:) .* log(1-a3'(1,:))
+printf("=======\n")
+J = J / m;
 
 % -------------------------------------------------------------
 
