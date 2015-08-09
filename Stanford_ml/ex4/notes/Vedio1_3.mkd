@@ -1,0 +1,9 @@
+##Notes
+---
+* Vedio 1
+    * Talked about the cost function
+* Vedio 2
+    * Talked about the Back Propagation that to optimize the cost function that talked in Vedio 1
+    * Back Propagation algorithm, I think, is a algorithm that to calculate the cost function, there are many steps that you must to follow to calculate the cost.
+
+
