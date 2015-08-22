@@ -23,10 +23,31 @@ sigma = 0.3;
 %        mean(double(predictions ~= yval))
 %
 
+C = 0.01;
+sigma = 0.01;
+model = svmTrain(X, y, C, @(x1, x2)gaussianKernel(x1, x2, sigma));
+predictions = svmPredict(model, Xval); 
+pre_err = mean(double(predictions ~= yval));
+new_C = C;
+new_sigma = sigma;
 
+param = [0.01 0.03 0.1 0.3 1.3 10 30]';
+for i = 1:length(param)
+    for j = 1:length(param)
+        C = param(i);
+        sigma = param(j);
+        model = svmTrain(X, y, C, @(x1,x2)gaussianKernel(x1,x2,sigma));
+        predictions = svmPredict(model, Xval); 
+        if mean(double(predictions ~= yval)) < pre_err
+            pre_err = mean(double(predictions ~= yval));
+            new_C = C;
+            new_sigma = sigma;
+        end
+    end
+end
 
-
-
+C = new_C;
+sigma = new_sigma;
 
 
 % =========================================================================
