@@ -16,6 +16,13 @@ sim = 0;
 %
 %
 
+% x1 in [3, 1]
+% x2 in [3, 1]
+% sigma is 2
+
+
+x1_x2 = x1 - x2;
+sim = exp(- sum((x1_x2 .^ 2)(:)) / (2*sigma*sigma));
 
 
 
