@@ -20,9 +20,22 @@ idx = zeros(size(X,1), 1);
 %
 % Note: You can use a for-loop over the examples to compute this.
 %
+new_idx = zeros(size(idx,1), 1);
+min_dist = 1000000;
+for i = 1:size(X, 1)
+    for k = 1:size(centroids, 1)
+      matrix = X(i,: ) - centroids(k,: );
+      dict = sum((matrix .^ 2)(:));
+      if dict < min_dist
+          min_dist = dict;
+          new_idx(i) = k;
+      end
+    end
+    min_dist = 1000000;
+end
 
 
-
+idx = new_idx(:);
 
 
 
