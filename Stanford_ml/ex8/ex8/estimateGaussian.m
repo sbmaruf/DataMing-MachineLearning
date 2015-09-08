@@ -22,7 +22,9 @@ sigma2 = zeros(n, 1);
 %
 
 
-
+mu = mean(X)';
+X2 = (X - ones(m, 1) * mu') .^ 2;
+sigma2 = mean(X2);
 
 
 
