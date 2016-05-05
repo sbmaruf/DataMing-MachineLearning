@@ -26,7 +26,7 @@ def basic_data():
     # plot time and total play
     day_total_play = pd.Series(day_total_play)
     fig = plt.plot(day_total_play.index, day_total_play.values)
-    plt.show()
+    plt.show(block=False)
     
     artists_songs = {}
     uniquevalues = np.unique(songs['artist_id'].values)
