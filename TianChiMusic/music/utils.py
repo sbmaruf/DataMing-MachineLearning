@@ -4,6 +4,7 @@ Created on 2016.3.31
 
 @author: qiuwei
 '''
+import time
 import datetime
 
 
@@ -28,3 +29,10 @@ def num_to_date(int_value):
     _mon = _day_mon / 100
     _day = _day_mon - _mon * 100
     return datetime.date(_year, _mon, _day)
+
+
+def timestamp2datatime(timeStamp):
+    """"""
+    format = '%Y-%m-%d %H:%M:%S'
+    return time.strftime(format, time.localtime(timeStamp))
+
