@@ -16,6 +16,7 @@ def basic_data():
     actions.columns = ['user_id', 'song_id', 'gmt_create', 'action_type', 'Ds']
     
     actions['Ds'] = actions['Ds'].apply(utils.num_to_date)
+    actions['gmt_create'] = actions['gmt_create'].apply(utils.timestamp2datatime)
     
     day_total_play = {}
     day_singer_play = {}
@@ -36,3 +37,4 @@ def basic_data():
     #for _id in np.unique(actions['song_id'].values):
     #    sonns_info[_id] = actions[actions['song_id'] == _id]
     return songs, actions, day_total_play, artists_songs
+
