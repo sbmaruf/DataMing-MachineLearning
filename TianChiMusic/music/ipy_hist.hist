@@ -1,0 +1,19 @@
+## all the ipython commands
+run __init__.py
+from pyspark import SparkContext
+sc = SparkContext(appName='tianchi')
+sc
+time_dict = {}
+unique_time = np.unique(actions.Ds.values)
+len(unique_time)
+for _t in unique_time:
+    time_dict[_t] = actions[actions.Ds==_t]
+
+import collections
+orderd_time_dict = collections.OrderedDict()
+for _t in unique_time:
+    orderd_time_dict[_t] = actions[actions.Ds==_t]
+len(np.unique(actions.user_id.values))
+new_df = actions.groupby(['user_id', 'action_type']
+                        ).action_type.sum().unstack(['action_type']).fillna(0)
+
