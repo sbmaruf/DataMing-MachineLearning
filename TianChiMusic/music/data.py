@@ -15,6 +15,8 @@ def basic_data():
     songs.columns = ['song_id', 'artist_id', 'publish_time', 'song_init_plays', 'Language', 'Gender']
     actions.columns = ['user_id', 'song_id', 'gmt_create', 'action_type', 'Ds']
     
+    songs['publish_time'] = songs['publish_time'].apply(utils.num_to_date)
+
     actions['Ds'] = actions['Ds'].apply(utils.num_to_date)
     actions['gmt_create'] = actions['gmt_create'].apply(utils.timestamp2datatime)
     
