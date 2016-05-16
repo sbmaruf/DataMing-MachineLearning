@@ -36,3 +36,14 @@ if __name__ == '__main__':
     _data = np.array([[key for key, _ in _a], [val[1] for _, val in _a]]).T
     artists_plays = pd.DataFrame(_data, columns=['artist_id', 'init_play'])
 
+    artists_detail = {}
+    for key, value in artists.items():
+        _t = actions[actions.song_id.isin(list(value[0]))].sort_values('Ds')
+        artists_detail[key] = _t
+
+    # plot data
+    for key, value in artists_detail.items():
+        _value = sorted(collections.Counter(value[value.action_type==1].Ds).iteritems(), key=lambda x:x[0])
+        plt.plot([v for v, _ in _value], [v for _, v in _value])
+        plt.show(block=False)
+
