@@ -41,6 +41,16 @@ class Tree(object):
                 ret_data.append(_reduced_feature_vec)
         return ret_data
 
+    def devide_data(self, divide_data, column, value):
+        _func = None
+        if isinstance(value, int) or isinstance(value, float):
+            _func = lambda x: x >= value
+        else:
+            _func = lambda x: x == value
+        set_1 = [_row for _row in divide_data if _func(_row[column])]
+        set_2 = [_row for _row in divide_data if not _func(_row[column])]
+        return set_1, set_2
+
 
 class TreeNode(Tree):
     """
@@ -55,7 +65,7 @@ class TreeNode(Tree):
         utils.check_type(is_leaf, bool)
         self.leaf = is_leaf
 
-        super(self, TreeNode).__init__()
+        super(TreeNode, self).__init__()
 
 
 class RegressionTee(Tree):
