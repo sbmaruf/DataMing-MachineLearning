@@ -2,6 +2,8 @@
 # coding=utf-8
 import sys
 import math
+import operator
+import collections
 
 sys.path.append('..')
 from utils import utils
@@ -20,10 +22,10 @@ class Tree(object):
     def prune(self):
         pass
 
-    def get_entropy(self):
-        _num_entries = len(self.data_set)
+    def get_entropy(self, data_set):
+        _num_entries = len(data_set)
         _label_counts = dict()
-        for vec in self.data_set:
+        for vec in data_set:
             _curr_label = vec[-1]
             _label_counts[_curr_label] = _label_counts.get(_curr_label, 0) + 1
         entropy = 0
@@ -40,6 +42,45 @@ class Tree(object):
                 _reduced_feature_vec.extend(_vec[axis+1:])
                 ret_data.append(_reduced_feature_vec)
         return ret_data
+
+    def choose_best_feature(self, data_set):
+        _num_features, _base_entropy = len(data_set[0]) - 1, self.get_entropy(data_set)
+        _max_info_gain, _best_feature = 0.0, -1
+        for _axis in range(_num_features):
+            _feature_list = [_vec[_axis] for _vec in data_set]
+            _unique_values, _conditional_entropy = set(_feature_list), 0
+            # 得到条件熵
+            for _val in _unique_values:
+                _sub_data_set = self.split_data(data_set, _axis, _val)
+                _prob = len(_sub_data_set) / float(len(data_set))
+                _conditional_entropy += _prob * self.get_entropy(_sub_data_set)
+            _info_gain = _base_entropy - _conditional_entropy
+            if _info_gain > _max_info_gain:
+                _max_info_gain, _best_feature = _info_gain, _axis
+        return _best_feature
+
+    def majority_count(self, class_list):
+        if len(class_list) == 0:
+            raise ValueError('empty class list')
+        return sorted(collections.Counter(class_list).iteritems(), key=operator.itemgetter(1), reverse=True)[0][0]
+
+    def create_tree(self, data_set, labels):
+        _class_list = [_vec[-1] for _vec in data_set]
+        if _class_list.count(_class_list[0]) == len(_class_list):
+            return _class_list
+        if len(data_set[0]) == 1:
+            return self.majority_count(_class_list)
+        _best_feature = self.choose_best_feature(data_set)
+        _best_feat_label = labels[_best_feature]
+        _my_tree = {_best_feat_label: {}}
+        del(labels[_best_feature])
+        feat_values = [_vec[_best_feature] for _vec in data_set]
+        unique_values = set(feat_values)
+        for _value in unique_values:
+            sub_labels = labels[:]
+            _my_tree[_best_feat_label][_value] = self.create_tree(
+                self.split_data(data_set, _best_feature, _value), sub_labels)
+        return _my_tree
 
     def devide_data(self, divide_data, column, value):
         _func = None
