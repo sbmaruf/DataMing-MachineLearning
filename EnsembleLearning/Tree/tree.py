@@ -92,6 +92,18 @@ class Tree(object):
         set_2 = [_row for _row in divide_data if not _func(_row[column])]
         return set_1, set_2
 
+    def classify(self, input_tree, feat_labels, test_vec):
+        _first_str = input_tree.keys()[0]
+        _second_dict = input_tree[_first_str]
+        _featrue_index = feat_labels.index(_first_str)
+        for _key in _second_dict.keys():
+            if test_vec[_featrue_index] == _key:
+                if isinstance(_second_dict[_key], dict):
+                    class_label = self.classify(_second_dict[_key], feat_labels, test_vec)
+                else:
+                    class_label = _second_dict[_key]
+        return class_label
+
 
 class TreeNode(Tree):
     """
@@ -106,7 +118,7 @@ class TreeNode(Tree):
         utils.check_type(is_leaf, bool)
         self.leaf = is_leaf
 
-        super(TreeNode, self).__init__()
+        super(TreeNode, self).__init__(data_set=data)
 
 
 class RegressionTee(Tree):
@@ -133,126 +145,3 @@ def load_iris_data():
     labels = ['sepal length', 'sepal width', 'petal length', 'petal width']
     with open('iris.txt') as f:
         return [[_v.split('\n')[0] for _i, _v in enumerate(_line.split(','))] for _line in f.readlines()], labels
-
-
-my_tree = {'petal length': {'1.0': ['Iris-setosa'],
-                            '1.1': ['Iris-setosa'],
-                            '1.2': ['Iris-setosa', 'Iris-setosa'],
-                            '1.3': ['Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa'],
-                            '1.4': ['Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa'],
-                            '1.5': ['Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa'],
-                            '1.6': ['Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa',
-                                    'Iris-setosa'],
-                            '1.7': ['Iris-setosa', 'Iris-setosa', 'Iris-setosa', 'Iris-setosa'],
-                            '1.9': ['Iris-setosa', 'Iris-setosa'],
-                            '3.0': ['Iris-versicolor'],
-                            '3.3': ['Iris-versicolor', 'Iris-versicolor'],
-                            '3.5': ['Iris-versicolor', 'Iris-versicolor'],
-                            '3.6': ['Iris-versicolor'],
-                            '3.7': ['Iris-versicolor'],
-                            '3.8': ['Iris-versicolor'],
-                            '3.9': ['Iris-versicolor', 'Iris-versicolor', 'Iris-versicolor'],
-                            '4.0': ['Iris-versicolor',
-                                    'Iris-versicolor',
-                                    'Iris-versicolor',
-                                    'Iris-versicolor',
-                                    'Iris-versicolor'],
-                            '4.1': ['Iris-versicolor', 'Iris-versicolor', 'Iris-versicolor'],
-                            '4.2': ['Iris-versicolor',
-                                    'Iris-versicolor',
-                                    'Iris-versicolor',
-                                    'Iris-versicolor'],
-                            '4.3': ['Iris-versicolor', 'Iris-versicolor'],
-                            '4.4': ['Iris-versicolor',
-                                    'Iris-versicolor',
-                                    'Iris-versicolor',
-                                    'Iris-versicolor'],
-                            '4.5': {'sepal length': {'4.9': ['Iris-virginica'],
-                                                     '5.4': ['Iris-versicolor'],
-                                                     '5.6': ['Iris-versicolor'],
-                                                     '5.7': ['Iris-versicolor'],
-                                                     '6.0': ['Iris-versicolor', 'Iris-versicolor'],
-                                                     '6.2': ['Iris-versicolor'],
-                                                     '6.4': ['Iris-versicolor']}},
-                            '4.6': ['Iris-versicolor', 'Iris-versicolor', 'Iris-versicolor'],
-                            '4.7': ['Iris-versicolor',
-                                    'Iris-versicolor',
-                                    'Iris-versicolor',
-                                    'Iris-versicolor',
-                                    'Iris-versicolor'],
-                            '4.8': {'sepal length': {'5.9': ['Iris-versicolor'],
-                                                     '6.0': ['Iris-virginica'],
-                                                     '6.2': ['Iris-virginica'],
-                                                     '6.8': ['Iris-versicolor']}},
-                            '4.9': {'sepal width': {'2.5': ['Iris-versicolor'],
-                                                    '2.7': ['Iris-virginica'],
-                                                    '2.8': ['Iris-virginica'],
-                                                    '3.0': ['Iris-virginica'],
-                                                    '3.1': ['Iris-versicolor']}},
-                            '5.0': {'sepal length': {'5.7': ['Iris-virginica'],
-                                                     '6.0': ['Iris-virginica'],
-                                                     '6.3': ['Iris-virginica'],
-                                                     '6.7': ['Iris-versicolor']}},
-                            '5.1': {'sepal length': {'5.8': ['Iris-virginica',
-                                                             'Iris-virginica',
-                                                             'Iris-virginica'],
-                                                     '5.9': ['Iris-virginica'],
-                                                     '6.0': ['Iris-versicolor'],
-                                                     '6.3': ['Iris-virginica'],
-                                                     '6.5': ['Iris-virginica'],
-                                                     '6.9': ['Iris-virginica']}},
-                            '5.2': ['Iris-virginica', 'Iris-virginica'],
-                            '5.3': ['Iris-virginica', 'Iris-virginica'],
-                            '5.4': ['Iris-virginica', 'Iris-virginica'],
-                            '5.5': ['Iris-virginica', 'Iris-virginica', 'Iris-virginica'],
-                            '5.6': ['Iris-virginica',
-                                    'Iris-virginica',
-                                    'Iris-virginica',
-                                    'Iris-virginica',
-                                    'Iris-virginica',
-                                    'Iris-virginica'],
-                            '5.7': ['Iris-virginica', 'Iris-virginica', 'Iris-virginica'],
-                            '5.8': ['Iris-virginica', 'Iris-virginica', 'Iris-virginica'],
-                            '5.9': ['Iris-virginica', 'Iris-virginica'],
-                            '6.0': ['Iris-virginica', 'Iris-virginica'],
-                            '6.1': ['Iris-virginica', 'Iris-virginica', 'Iris-virginica'],
-                            '6.3': ['Iris-virginica'],
-                            '6.4': ['Iris-virginica'],
-                            '6.6': ['Iris-virginica'],
-                            '6.7': ['Iris-virginica', 'Iris-virginica'],
-                            '6.9': ['Iris-virginica']}}
